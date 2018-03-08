@@ -12,12 +12,12 @@ c = []
 
 with open('orders.csv', newline='') as openCsv:
     reader = csv.reader(openCsv)
-    sortList = sorted(reader, key=lambda x: int(x[3]), reverse = False) #sort by customer id
+    sortList = sorted(reader, key=lambda x: int(x[3]), reverse = False) #-- sort by customer id
     for i,row in enumerate(sortList):
-        if row[1] == "Shipped": # make sure order has been shipped !!!!!!ADD FULFILMENT
+        if row[1] == "Shipped": # ----------------------------------------- make sure order has been shipped
             if int(row[3]) != 0:
                 a.append(row[2:5])
-                #if(i >= 50): # limit inputs
+                #if(i >= 50): # ------------------------------------------- limit inputs
                     #break
 
 #------------------------------------------------------------------------------------
