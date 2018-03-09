@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+
+# -----------------------------------------------------------------------------------
+# ---------------- Extract historic data from BigCommerce csv file ------------------
+# -----------------------------------------------------------------------------------
 
 import csv
 
@@ -10,7 +14,7 @@ c = []
 
 #------------------------------------------------------------------------------------
 
-with open('orders.csv', newline='') as openCsv:
+with open('data/orders.csv') as openCsv:
     reader = csv.reader(openCsv)
     sortList = sorted(reader, key=lambda x: int(x[3]), reverse = False) #-- sort by customer id
     for i,row in enumerate(sortList):
@@ -49,10 +53,9 @@ for foo in b:
         emailCheck = foo[2]
         c.append(foo)
 
-print(c)
 # -----------------------------------------------------------------------------------
 
-closeCsv = open('customerList.csv', 'w')
+closeCsv = open('data/customerList.csv', 'w')
 with closeCsv:
     writer = csv.writer(closeCsv)
     writer.writerows(c)

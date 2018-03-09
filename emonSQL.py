@@ -17,7 +17,7 @@ mydb = MySQLdb.connect(
     
 cursor = mydb.cursor()
 
-file = open("customers.csv", "rb")
+file = open("data/customers.csv", "rb")
 reader = csv.reader(file)
 next(file) # ignore header
 for row in reader:

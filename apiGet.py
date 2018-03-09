@@ -31,5 +31,5 @@ r = requests.get(
 
 r = r.json()
 
-with open('latestOrders.json', 'w') as outfile:
+with open('data/latestOrders.json', 'w') as outfile:
     json.dump(r, outfile)

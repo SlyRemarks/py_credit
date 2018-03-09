@@ -6,7 +6,7 @@ import json
 
 data = {}
 
-with open('latestOrders.json', 'r') as data_file:
+with open('data/latestOrders.json', 'r') as data_file:
     data = json.load(data_file)
 
 e = []
