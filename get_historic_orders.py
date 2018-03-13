@@ -12,12 +12,12 @@ def orders_sort():
     a = []
     with open('data/orders.csv') as open_csv:
         reader = csv.reader(open_csv)
-        sort_list = sorted(reader, key=lambda x: int(x[3]), reverse = False) #-- sort by customer id
+        sort_list = sorted(reader, key=lambda x: int(x[3]), reverse = False)
         for i,row in enumerate(sort_list):
-            if row[1] == "Shipped": # ----------------------------------------- make sure order has been shipped
+            if row[1] == "Shipped":
                 if int(row[3]) != 0:
                     a.append(row[2:5])
-                #if(i >= 50): # ------------------------------------------- limit inputs
+                #if(i >= 50):
                     #break
     return a
     
@@ -69,5 +69,5 @@ close_csv = open('data/customerList.csv', 'w')
 with close_csv:
     writer = csv.writer(close_csv)
     writer.writerows(c)
-
-# -----------------------------------------------------------------------------------
+    
+#------------------------------------------------------------------------------------

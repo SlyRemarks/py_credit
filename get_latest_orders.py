@@ -1,9 +1,45 @@
 #!/usr/bin/env python
 
 import requests
-import config
 import json
+import MySQLdb
+import assets.config as config
 
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+
+#class DatabaseInput:
+    
+#    mydb = MySQLdb.connect(
+        
+#    host   = config.database['host'],
+#    user   = config.database['user'],
+#    passwd = config.database['passwd'],
+#    db     = config.database['db']
+    
+#    )
+
+    
+    #cursor = mydb.cursor()
+
+#file = open("data/customerList.csv", "rb")
+#reader = csv.reader(file)
+##################next(file) # ignore header
+#for row in reader:
+#####################    valid = True   # isdigit
+###################    id = row[0]
+#################    if not numeric id: valid = False
+    
+#    cursor.execute('INSERT INTO customers( id, email, spend )' \
+#    'VALUES( %s, %s, %s)',(int(float(row[0])),row[1],row[9]))
+    
+#mydb.commit()
+#cursor.close()
+#print "Done"
+
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
 
 class GetLatestOrders:
@@ -14,16 +50,22 @@ class GetLatestOrders:
     order_id    = config.bigcommerce['order_id']
 
     headers = {
+        
     'X-Auth-Client' : clientId,
     'X-Auth-Token'  : accessToken,
     'Accept'        : 'application/json',
     'Content-Type'  : 'application/json'
+    
     }
+    
+#------------------------------------------------------------------------------------
 
     def __init__(self, last_known_order):
         self.last_known_order = last_known_order
 
-    def get_latest_order(self):
+#------------------------------------------------------------------------------------
+
+    def get_latest_orders(self):
         params = {'min_id' : self.last_known_order}
 
         r = requests.get(
@@ -32,51 +74,66 @@ class GetLatestOrders:
         '/v2/orders',
         params=params, headers=self.headers
         )
-
-        r = r.json()
-
-        e = []
         
-        for key in r:
+        try:
+            api_result = r.json()
+        except ValueError:
+            return False
+        return api_result
+
+#------------------------------------------------------------------------------------
+        
+    def sort_latest_orders(self, x):
+        
+        result = []
+        
+        for key in x:
             
-            a = 0
-            b = 0
-            c = ""
-            d = ""
+            customer_id = 0
+            order_id    = 0
+            subtotal    = 0
+            status      = ""
             
             for item in key:
                 
                 if item == "customer_id":
                     if key[item] != 0:
-                        a = key[item]
+                        customer_id = key[item]
         
                 if item == "id":
                     if key[item] != 0:
-                        b = key[item]
+                        order_id = key[item]
         
                 if item == "subtotal_ex_tax":
-                        c = key[item]
-                        c = float(c)
+                        subtotal = key[item]
+                        subtotal = float(subtotal)
         
                 if item == "status":
-                        d = key[item]
-                        d = d.encode('utf8')
+                        status = key[item]
+                        status = status.encode('utf8')
                 
-            if a != 0:
-                if d == "Shipped":
-                        e.append([a,b,c,d])
+            if customer_id != 0:
+                if status == "Shipped" and subtotal != 0:
+                        result.append([customer_id, order_id, subtotal, status])
             
-        for x in e:
-            print x
-        
+        return result
+
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
 
-last_known_order = '17240' #last number in list
-y = GetLatestOrders(last_known_order)
-y.get_latest_order()
+last_known_order = '17220'
+get_orders       = GetLatestOrders(last_known_order)
+api_result       = get_orders.get_latest_orders()
 
-#with open('data/latestOrders.json', 'w') as outfile:
-#    json.dump(r, outfile)
+if api_result is not False:
+    c = get_orders.sort_latest_orders(api_result)
+    print c
+else:
+    print 'ah well, maybe another time...'
+    
+#------------------------------------------------------------------------------------
+
 
 
 
