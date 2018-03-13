@@ -9,19 +9,24 @@ import assets.config as config
 #------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------
 
-#class DatabaseInput:
+class DatabaseInput:
     
-#    mydb = MySQLdb.connect(
+    def __init__(self, new_orders):
+        self.new_orders = new_orders
         
-#    host   = config.database['host'],
-#    user   = config.database['user'],
-#    passwd = config.database['passwd'],
-#    db     = config.database['db']
-    
-#    )
+        
+    def add_to_database(self):
+        
+        mydb = MySQLdb.connect(
+            
+            host   = config.database['host'],
+            user   = config.database['user'],
+            passwd = config.database['passwd'],
+            db     = config.database['db']
+        
+        )
 
-    
-    #cursor = mydb.cursor()
+#cursor = mydb.cursor()
 
 #file = open("data/customerList.csv", "rb")
 #reader = csv.reader(file)

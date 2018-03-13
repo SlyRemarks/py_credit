@@ -5,12 +5,13 @@
 # -----------------------------------------------------------------------------------
 
 import csv
+from decimal import Decimal
 
 #------------------------------------------------------------------------------------
 
 def orders_sort():
     a = []
-    with open('data/orders.csv') as open_csv:
+    with open('assets/orders.csv') as open_csv:
         reader = csv.reader(open_csv)
         sort_list = sorted(reader, key=lambda x: int(x[3]), reverse = False)
         for i,row in enumerate(sort_list):
@@ -27,7 +28,7 @@ def orders_cast():
     a = orders_sort()
     b = []
     for foo in a :
-        foo[0] = float(foo[0])
+        foo[0] = Decimal(foo[0]).quantize(Decimal('1e-2'))
         foo[1] = int(foo[1])
         b.append(foo)
         
@@ -65,7 +66,7 @@ def orders_combine():
 
 c = orders_combine()
 
-close_csv = open('data/customerList.csv', 'w')
+close_csv = open('assets/customerList.csv', 'w')
 with close_csv:
     writer = csv.writer(close_csv)
     writer.writerows(c)
