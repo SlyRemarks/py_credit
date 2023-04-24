@@ -85,11 +85,11 @@ Note that CT 1 faces to the right and CT 2 faces to the left, as indicated by th
 If we assume the lower leg voltage is identical in magnitude to the upper, and we add the powers
 together in software, then the total power as measured will be
 
-<blockquote>
+<code>
 V × I<sub>CT1</sub> + V × I<sub>CT2</sub>
 = V × (I<sub>1</sub> + I<sub>3</sub> ) + V × (I<sub>2</sub> + I<sub>3</sub> )
 = V × I<sub>1</sub> + V × I<sub>2</sub> + 2 × V × I<sub>3</sub>
-</blockquote>
+</code>
 
 Other arrangements are possible:
 
